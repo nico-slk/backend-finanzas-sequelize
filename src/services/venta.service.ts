@@ -15,29 +15,29 @@ const getVentas = async (req: Request, res: Response) => {
   try {
     switch (filtro) {
       case "dia":
-        fechaInicio = dayjs().startOf("day");
+        fechaInicio = dayjs().subtract(1, "day");
         break;
       case "semana":
-        fechaInicio = dayjs().startOf("week");
+        fechaInicio = dayjs().subtract(7, "day");
         break;
       case "mes":
-        fechaInicio = dayjs().startOf("month");
+        fechaInicio = dayjs().subtract(30, "day");
         break;
       case "anio":
-        fechaInicio = dayjs().startOf("year");
+        fechaInicio = dayjs().subtract(1, "year");
         break;
       default:
         fechaInicio = dayjs("1970-01-01");
         break;
     }
 
-    const ventas = VentasModel.findAll({
+    const ventas = await VentasModel.findAll({
       where: {
         fecha: {
-          [Op.gte]: fechaInicio.toDate(),
-          [Op.lte]: fechaFin,
+          [Op.between]: [fechaInicio.toDate(), fechaFin],
         },
       },
+      order: [["fecha", "DESC"]],
     });
 
     if (!Array.isArray(ventas)) {
@@ -47,20 +47,26 @@ const getVentas = async (req: Request, res: Response) => {
     }
 
     res.status(200).send(ventas);
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).send({
+      message: "Error del servidor al buscar las ventas.",
+    });
+  }
 };
 
 const createVenta = async (req: Request, res: Response) => {
   const transaction = await db.transaction();
-  const { fecha, categoria, monto, descripcion } = req.body;
+  const { categoria, monto, descripcion } = req.body;
 
   try {
-    const newVenta = await VentasModel.create({
-      fecha,
-      categoria,
-      monto,
-      descripcion,
-    });
+    const newVenta = await VentasModel.create(
+      {
+        categoria,
+        monto,
+        descripcion,
+      },
+      { transaction }
+    );
 
     if (!newVenta) {
       return res.status(400).send({
@@ -68,8 +74,8 @@ const createVenta = async (req: Request, res: Response) => {
       });
     }
 
-    res.status(201).send(newVenta);
     await transaction.commit();
+    res.status(201).send(newVenta);
   } catch (error) {
     await transaction.rollback();
     res.status(500).send({
@@ -103,6 +109,7 @@ const updateVenta = async (req: Request, res: Response) => {
   try {
     const [affectedCount] = await VentasModel.update(req.body, {
       where: { id },
+      transaction,
     });
 
     if (affectedCount === 0) {
@@ -110,8 +117,8 @@ const updateVenta = async (req: Request, res: Response) => {
     }
 
     const ventaActualizada = await VentasModel.findByPk(id);
-    res.status(200).json(ventaActualizada);
     await transaction.commit();
+    res.status(200).json(ventaActualizada);
   } catch (error) {
     await transaction.rollback();
     res.status(500).json({ message: "Error al actualizar la venta." });
@@ -125,17 +132,65 @@ const deleteVenta = async (req: Request, res: Response) => {
   try {
     const deletedCount = await VentasModel.destroy({
       where: { id },
+      transaction,
     });
 
     if (deletedCount === 0) {
+      await transaction.rollback();
       return res.status(404).json({ message: "Venta no encontrada." });
     }
 
-    res.status(200).json({ message: "Venta eliminada correctamente." });
     await transaction.commit();
+    return res.status(200).json({ message: "Venta eliminada correctamente." });
   } catch (error) {
     await transaction.rollback();
-    res.status(500).json({ message: "Error al eliminar la venta." });
+    return res.status(500).json({ message: "Error al eliminar la venta." });
+  }
+};
+
+const restoreVenta = async (req: Request, res: Response) => {
+  const transaction = await db.transaction();
+  const { id } = req.params;
+
+  try {
+    const venta = await VentasModel.findByPk(id, {
+      paranoid: false,
+      transaction,
+    });
+
+    if (!venta) {
+      await transaction.rollback();
+      return res
+        .status(404)
+        .json({ message: "No se encontró el registro para restaurar." });
+    }
+
+    if (venta.dataValues.deletedAt === null) {
+      await transaction.rollback();
+      return res.status(400).json({ message: "La venta no está eliminada." });
+    }
+
+    await venta.restore({ transaction });
+
+    await transaction.commit();
+    return res.status(200).json({ message: "Venta restaurada correctamente." });
+  } catch (error) {
+    await transaction.rollback();
+    return res.status(500).json({ message: "Error al restaurar la venta." });
+  }
+};
+
+const ventasBorradas = async (req: Request, res: Response) => {
+  try {
+    const ventasBorradas = await VentasModel.findAll({
+      where: {
+        deletedAt: { [Op.ne]: null },
+      },
+      paranoid: false,
+    });
+    res.status(200).json(ventasBorradas);
+  } catch (error) {
+    res.status(500).json({ message: "Error al obtener las ventas borradas." });
   }
 };
 
@@ -145,4 +200,6 @@ export default {
   createVenta,
   updateVenta,
   deleteVenta,
+  restoreVenta,
+  ventasBorradas,
 };

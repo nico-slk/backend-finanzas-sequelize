@@ -12,6 +12,7 @@ const Gasto = db.define(
     fecha: {
       type: DataTypes.DATE,
       allowNull: false,
+      defaultValue: DataTypes.NOW,
     },
     categoria: {
       type: DataTypes.STRING(100),
@@ -25,10 +26,15 @@ const Gasto = db.define(
       type: DataTypes.STRING(255),
       allowNull: true,
     },
+    deletedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
   },
   {
     tableName: "gastos",
-    timestamps: false,
+    timestamps: true,
+    paranoid: true,
   }
 );
 

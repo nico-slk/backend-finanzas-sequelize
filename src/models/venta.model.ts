@@ -12,6 +12,7 @@ const Venta = db.define(
     fecha: {
       type: DataTypes.DATE,
       allowNull: false,
+      defaultValue: DataTypes.NOW,
     },
     categoria: {
       type: DataTypes.STRING(100),
@@ -25,10 +26,15 @@ const Venta = db.define(
       type: DataTypes.STRING(255),
       allowNull: true,
     },
+    deletedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
   },
   {
     tableName: "ventas",
-    timestamps: false,
+    timestamps: true,
+    paranoid: true,
   }
 );
 

@@ -3,6 +3,7 @@ import express, { Application } from "express";
 import { createServer, Server as ServerNode } from "http";
 import Config from "../config/config";
 import db from "../db/db";
+import { executeSqlScript } from "../db/runScript";
 import { ApiPaths } from "../routes";
 
 export class Server {
@@ -26,6 +27,9 @@ export class Server {
         .sync({ alter: true })
         .then(() => {
           console.log("Modelos sincronizados");
+        })
+        .then(() => {
+          executeSqlScript("script.sql");
         })
         .catch((error) => {
           console.error("Error al sincronizar la base de datos:", error);

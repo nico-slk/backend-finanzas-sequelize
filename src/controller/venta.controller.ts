@@ -16,10 +16,18 @@ const getVenta = async (req: Request, res: Response) =>
 const deleteVenta = async (req: Request, res: Response) =>
   VentaService.deleteVenta(req, res);
 
+const restoreVenta = async (req: Request, res: Response) =>
+  VentaService.restoreVenta(req, res);
+
+const ventasBorradas = async (req: Request, res: Response) =>
+  VentaService.ventasBorradas(req, res);
+
 export default {
   getVentas,
   createVenta,
   updateVenta,
   getVenta,
   deleteVenta,
+  restoreVenta,
+  ventasBorradas,
 };
