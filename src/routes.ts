@@ -1,5 +1,5 @@
 import { Router } from "express";
-import ventaRouter from "./router/venta.route";
+import { GastoRoute, VentasRoute } from "./router";
 
 interface IApiPaths {
   url: string;
@@ -9,6 +9,10 @@ interface IApiPaths {
 export const ApiPaths: IApiPaths[] = [
   {
     url: "/venta",
-    router: ventaRouter,
+    router: VentasRoute,
+  },
+  {
+    url: "/gasto",
+    router: GastoRoute,
   },
 ];
