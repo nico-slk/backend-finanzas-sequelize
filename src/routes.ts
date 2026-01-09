@@ -1,14 +1,14 @@
+import { Router } from "express";
+import ventaRouter from "./router/venta.route";
+
 interface IApiPaths {
   url: string;
-  router: string;
+  router: Router;
 }
 
 export const ApiPaths: IApiPaths[] = [
-  //Cuando creemos un archivo en la carpeta de router debemos crear nuestra ruta acá para que pueda ser accesible desde una petición
-  //Ejemplo:  { url: "/example", router: "example.route" }
-  //url: url del endpoint, router: nombre del archivo sin la extención del "ts"
-  // { url: "/auth", router: "auth.route" },
-  // { url: "/auth", router: "auth.route" },
-  // { url: "/user", router: "user.route" },
-  // { url: "/recipe", router: "recipe.route" },
+  {
+    url: "/venta",
+    router: ventaRouter,
+  },
 ];

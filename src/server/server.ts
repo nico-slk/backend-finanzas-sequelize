@@ -1,14 +1,9 @@
 import cors from "cors";
 import express, { Application } from "express";
-import fs from "fs";
-import fsPromises from "fs/promises";
 import { createServer, Server as ServerNode } from "http";
-import path from "path";
 import Config from "../config/config";
 import db from "../db/db";
 import { ApiPaths } from "../routes";
-
-import "../models";
 
 export class Server {
   private app: Application;
@@ -56,19 +51,12 @@ export class Server {
   }
 
   routes() {
-    ApiPaths.forEach(async ({ url, router }) => {
-      const filePath = path.resolve(__dirname, "../router", `${router}.js`);
-
+    ApiPaths.forEach(({ url, router }) => {
       try {
-        await fsPromises.access(filePath, fs.constants.F_OK);
-
-        const routeModule = await import(filePath.toString());
-        this.app.use(`/api${url}`, routeModule.default || routeModule);
-      } catch (error: any) {
-        console.error(
-          `El archivo ${filePath} no existe o no es accesible:`,
-          error.message
-        );
+        this.app.use(`/api${url}`, router);
+        console.log(`✅ Ruta cargada: /api${url}`);
+      } catch (error) {
+        console.error(`❌ Error al cargar la ruta ${url}:`, error);
       }
     });
   }
