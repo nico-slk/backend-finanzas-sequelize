@@ -1,1 +1,1 @@
-# delsud_finance_service
+# backend-finanzas-sequelize

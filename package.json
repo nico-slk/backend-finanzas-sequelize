@@ -1,14 +1,14 @@
 {
-  "name": "delsud_finance_service",
+  "name": "backend-finanzas-sequelize",
   "version": "1.0.0",
   "description": "",
-  "homepage": "https://github.com/nico-slk/delsud_finance_service#readme",
+  "homepage": "https://github.com/nico-slk/backend-finanzas-sequelize#readme",
   "bugs": {
-    "url": "https://github.com/nico-slk/delsud_finance_service/issues"
+    "url": "https://github.com/nico-slk/backend-finanzas-sequelize/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nico-slk/delsud_finance_service.git"
+    "url": "git+https://github.com/nico-slk/backend-finanzas-sequelize.git"
   },
   "license": "ISC",
   "author": "",
