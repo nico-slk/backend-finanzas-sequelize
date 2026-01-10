@@ -1,0 +1,17 @@
+{
+  "exclude": ["node_modules", "dist"],
+  "include": ["src"],
+  "compilerOptions": {
+    "moduleResolution": "NodeNext",
+    "rootDir": "src",
+    "outDir": "dist/",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+
+    "target": "es2016",
+    "module": "NodeNext",
+    "sourceMap": true
+  }
+}
