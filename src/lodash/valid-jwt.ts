@@ -3,50 +3,33 @@ import jwt, { VerifyErrors } from "jsonwebtoken";
 import config from "../config/config.js";
 
 const { secret } = config;
-const { verify } = jwt;
 
-const validJwt = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  let token = req.headers.authorization || "";
-  if (typeof token === "object") {
-    res.status(503).json({
-      msg: "Not provided token",
-    });
+const validJwt = (req: Request, res: Response, next: NextFunction): void => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    res.status(401).json({ msg: "No token provided" });
     return;
   }
-  token = token.split(" ")[1] || "";
 
-  if (token) {
-    verify(
-      token,
-      secret || "test",
-      (err: VerifyErrors | null, decoded: any) => {
-        if (err) {
-          res.status(403).json({
-            msg: "Failed to authenticate token",
-          });
-          return;
-        }
+  const token = authHeader.split(" ")[1];
 
-        if (typeof req.ip === "object") {
-          res.status(503).json({
-            msg: "Not provided ip",
-          });
-          return;
-        }
-        req.body["decoded"] = decoded;
-
-        next();
+  jwt.verify(
+    token,
+    secret || "test",
+    (err: VerifyErrors | null, decoded: any) => {
+      if (err) {
+        return res.status(403).json({
+          msg: "Failed to authenticate token",
+          error: err.message,
+        });
       }
-    );
-  } else {
-    res.status(503).json({
-      msg: "Not provided token 2",
-    });
-  }
+
+      (req as any).user = decoded;
+
+      next();
+    }
+  );
 };
 
 export default { validJwt };

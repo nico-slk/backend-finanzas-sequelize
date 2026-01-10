@@ -1,10 +1,11 @@
 import { Router } from "express";
 import { GastoController } from "../controller";
-// import { ValidJWT } from "../lodash";
+import { RolCkecker, ValidJWT } from "../lodash";
 
 const router = Router();
 
-// const { validJwt } = ValidJWT;
+const { validJwt } = ValidJWT;
+const { rolCkecker } = RolCkecker;
 
 const {
   getGastos,
@@ -17,11 +18,11 @@ const {
 } = GastoController;
 
 router.get("/", getGastos);
-router.get("/deleted", gastosBorrados);
+router.get("/deleted", validJwt, gastosBorrados);
 router.get("/:id", getGasto);
-router.post("/", createGasto);
-router.put("/:id", updateGasto);
-router.delete("/:id", deleteGasto);
-router.put("/restore/:id", restoreGasto);
+router.post("/", validJwt, createGasto);
+router.put("/:id", validJwt, updateGasto);
+router.delete("/:id", [validJwt, rolCkecker], deleteGasto);
+router.put("/restore/:id", [validJwt, rolCkecker], restoreGasto);
 
 export default router;
