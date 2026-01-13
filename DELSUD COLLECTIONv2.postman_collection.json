@@ -1,0 +1,564 @@
+{
+	"info": {
+		"_postman_id": "cfb82b9a-32ba-4028-afac-b72a39a39798",
+		"name": "DELSUD COLLECTION",
+		"description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "50683894",
+		"_collection_link": "https://nicolas-selicki-2969261.postman.co/workspace/Nicolas-Selicki's-Workspace~56c74603-1a5c-4054-8d18-bafb6436eb2c/collection/50683894-cfb82b9a-32ba-4028-afac-b72a39a39798?action=share&source=collection_link&creator=50683894"
+	},
+	"item": [
+		{
+			"name": "DELSUD",
+			"item": [
+				{
+					"name": "ventas",
+					"item": [
+						{
+							"name": "Get ventas",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api}}/venta?filtro=",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"venta"
+									],
+									"query": [
+										{
+											"key": "filtro",
+											"value": ""
+										}
+									]
+								},
+								"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+							},
+							"response": []
+						},
+						{
+							"name": "Get venta",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api}}/venta/:id",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"venta",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Put venta",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"categoria\": \"Consultoría\",\r\n    \"monto\": \"500.00\",\r\n    \"descripcion\": \"Auditoría semestral\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/venta/:id",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"venta",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "eeb561c0-91ac-4ec1-b660-e3ad8c3c82a5"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post venta",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"categoria\": \"Servicios\",\r\n    \"monto\": \"500.00\",\r\n    \"descripcion\": \"Plomeria\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{api}}/venta"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete venta",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"categoria\": \"Servicios\",\r\n    \"monto\": \"500.00\",\r\n    \"descripcion\": \"Plomeria\"\r\n}"
+								},
+								"url": {
+									"raw": "{{api}}/venta/:id",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"venta",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "restore venta",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{api}}/venta/restore/:id",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"venta",
+										"restore",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ventas borradas",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"categoria\": \"Servicios\",\r\n    \"monto\": \"500.00\",\r\n    \"descripcion\": \"Plomeria\"\r\n}"
+								},
+								"url": "{{api}}/venta/deleted"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "gastos",
+					"item": [
+						{
+							"name": "Get gastos",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api}}/gasto?filtro=",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"gasto"
+									],
+									"query": [
+										{
+											"key": "filtro",
+											"value": ""
+										}
+									]
+								},
+								"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+							},
+							"response": []
+						},
+						{
+							"name": "Get gasto",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api}}/gasto/:id",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"gasto",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "fc17ba23-a683-4aad-80b0-af23b86d6eb3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Put gasto",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"categoria\": \"Oficina\",\r\n    \"monto\": \"1500.50\",\r\n    \"descripcion\": \"Alquiler oficina\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/gasto/:id",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"gasto",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "0f6ec394-bd25-4700-ba35-37ae5c541997"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post gasto",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"categoria\": \"Oficina\",\r\n    \"monto\": \"555.55\",\r\n    \"descripcion\": \"Alquiler oficina re lejos\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{api}}/gasto"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete gasto",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"categoria\": \"Servicios\",\r\n    \"monto\": \"500.00\",\r\n    \"descripcion\": \"Plomeria\"\r\n}"
+								},
+								"url": {
+									"raw": "{{api}}/gasto/:id",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"gasto",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "0f6ec394-bd25-4700-ba35-37ae5c541997"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "restore gasto",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{api}}/gasto/restore/:id",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"gasto",
+										"restore",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "0f6ec394-bd25-4700-ba35-37ae5c541997"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "gastos borrados",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"categoria\": \"Servicios\",\r\n    \"monto\": \"500.00\",\r\n    \"descripcion\": \"Plomeria\"\r\n}"
+								},
+								"url": "{{api}}/gasto/deleted"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get dashboard",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{api}}/dashboard/line-chart"
+					},
+					"response": []
+				},
+				{
+					"name": "Post upload JSON",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "archivo",
+									"type": "file",
+									"src": "/C:/Users/nico1/Desktop/Nico/WEB/CHALLENGES/delsud/backend-finanzas-sequelize/prueba.json"
+								}
+							]
+						},
+						"url": "{{api}}/import-json"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DRIZZLE AUTH",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"juan.perez@example.com\",\r\n  \"password\": \"password123\",\r\n  \"nombre\": \"Juan Pérez\",\r\n  \"rol\": \"user\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{auth}}/register"
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"if (response.success && response.data && response.data.token) {\r",
+									"    pm.environment.set(\"token\", response.data.token);\r",
+									"    \r",
+									"    console.log(\"✅ Token guardado correctamente en la variable de entorno\");\r",
+									"} else {\r",
+									"    console.log(\"❌ No se pudo encontrar el token en la respuesta\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"juan.perez@example.com\",\r\n  \"password\": \"password123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{auth}}/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Get user info",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{auth}}/me"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
