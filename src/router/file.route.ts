@@ -11,7 +11,7 @@ const { rolCkecker } = RolCkecker;
 const { importJsonFile } = LineChartController;
 
 router.post(
-  "/a",
+  "/",
   [validJwt, rolCkecker, upload.single("archivo")],
   importJsonFile
 );
